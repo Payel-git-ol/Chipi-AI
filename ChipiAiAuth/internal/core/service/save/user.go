@@ -1,6 +1,7 @@
 package save
 
 import (
+	"ChipiAiAuth/internal/fetcher/kafka/producer"
 	"ChipiAiAuth/pkg/database"
 	"ChipiAiAuth/pkg/models"
 	"ChipiAiAuth/pkg/models/request"
@@ -20,5 +21,6 @@ func (u *User) UserService(req request.UserRequest) (*models.User, error) {
 		database.Db.Create(&newUser)
 	}
 
+	producer.SendMessageUser("user-in-chat", newUser)
 	return &newUser, nil
 }
