@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "github.com/pasaz/ChipiAi/proto;pb";
+
+message NewMessageContent {
+  string username = 1;
+  string content  = 2;
+}
+
+message Empty {}
+
+service MessageService {
+  rpc Message(NewMessageContent) returns (Empty);
+}

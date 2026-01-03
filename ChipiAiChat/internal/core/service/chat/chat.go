@@ -2,6 +2,7 @@ package chat
 
 import (
 	"ChipiAiChat/internal/core/service/cookie"
+	"ChipiAiChat/internal/fetcher/grpc/client"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
@@ -10,6 +11,8 @@ import (
 )
 
 type Chat struct{}
+
+var Connections = map[string]*websocket.Conn{}
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
@@ -28,13 +31,16 @@ func (ch Chat) ChatInAi(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, "invalid token")
 	}
 
-	fmt.Println("User:", claims["username"])
+	username := claims["username"].(string)
+	fmt.Println("User:", username)
 
 	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		fmt.Println("Error upgrade:", err)
 		return err
 	}
+
+	Connections[username] = conn
 	defer conn.Close()
 
 	for {
@@ -43,12 +49,11 @@ func (ch Chat) ChatInAi(c echo.Context) error {
 			fmt.Println("Error read:", err)
 			break
 		}
-		fmt.Println(string(message))
 
-		if err := conn.WriteMessage(websocket.TextMessage, message); err != nil {
-			fmt.Println("Error write:", err)
-			break
-		}
+		fmt.Println("User message:", string(message))
+
+		go client.SendContent(username, string(message))
 	}
+
 	return nil
 }

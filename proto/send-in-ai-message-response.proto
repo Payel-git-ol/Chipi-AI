@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/pasaz/ChipiAi/proto;responsepb";
+
+message NewMessageContentResponse {
+  string username = 1;
+  string content = 2;
+}
+
+service MessageServiceResponse {
+  rpc Message(NewMessageContentResponse) returns (google.protobuf.Empty);
+}

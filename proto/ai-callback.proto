@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/pasaz/ChipiAi/proto;callbackpb";
+
+message AiMessage {
+  string username = 1;
+  string content = 2;
+}
+
+service AiCallback {
+  rpc SendAiMessage(AiMessage) returns (google.protobuf.Empty);
+}
