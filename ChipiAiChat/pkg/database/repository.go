@@ -58,3 +58,25 @@ func UpdateMessageContent(roomId string, username string, newContent string) err
 	_, err := Messages().UpdateOne(ctx, filter, update)
 	return err
 }
+
+func GetAllContentInRoom(roomId primitive.ObjectID) ([]models.Message, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	filter := bson.M{
+		"roomId": roomId.Hex(),
+	}
+
+	cursor, err := Messages().Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var messages []models.Message
+	if err := cursor.All(ctx, &messages); err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}

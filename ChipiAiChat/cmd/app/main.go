@@ -9,6 +9,7 @@ import (
 	"ChipiAiChat/pkg/models/request"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -60,6 +61,20 @@ func main() {
 		return c.JSON(200, map[string]string{
 			"roomId": id.Hex(),
 		})
+	})
+
+	e.GET("/get/room/:id", func(c echo.Context) error {
+		id, err := primitive.ObjectIDFromHex(c.Param("id"))
+		if err != nil {
+			return c.JSON(500, err.Error())
+		}
+
+		roomContent, err := database.GetAllContentInRoom(id)
+		if err != nil {
+			return c.JSON(500, err.Error())
+		}
+
+		return c.JSON(200, roomContent)
 	})
 
 	e.GET("/chat", ws.ChatInAi)
