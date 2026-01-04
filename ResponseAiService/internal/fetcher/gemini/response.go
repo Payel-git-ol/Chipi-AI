@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-func SendMessageInGemini(username string, content string) {
+func SendMessageInGemini(username string, content string, roomId string) {
 	godotenv.Load()
 
 	ctx := context.Background()
@@ -27,7 +27,7 @@ func SendMessageInGemini(username string, content string) {
 		ctx,
 		"gemini-2.5-flash",
 		genai.Text(
-			"Name: "+username+"Content: "+content,
+			"Name: "+username+"Content: "+content+"An important answer to a user's question",
 		),
 		nil,
 	)
@@ -38,5 +38,5 @@ func SendMessageInGemini(username string, content string) {
 
 	fmt.Println(result.Text())
 
-	grpclient.SendNewMessageInChat(username, result.Text())
+	grpclient.SendNewMessageInChat(username, result.Text(), roomId)
 }

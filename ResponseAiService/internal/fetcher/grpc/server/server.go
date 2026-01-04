@@ -14,9 +14,9 @@ type ContextServer struct {
 }
 
 func (s *ContextServer) Message(ctx context.Context, req *pb.NewMessageContentResponse) (*emptypb.Empty, error) {
-	log.Printf("Get message %s: %s", req.Username, req.Content)
+	log.Printf("Get message %s: %s", req.Username, req.Content, req.RoomId)
 
-	g.SendMessageInGemini(req.Username, req.Content)
+	g.SendMessageInGemini(req.Username, req.Content, req.RoomId)
 
 	return &emptypb.Empty{}, nil
 }

@@ -3,6 +3,7 @@ package chat
 import (
 	"ChipiAiChat/internal/core/service/cookie"
 	"ChipiAiChat/internal/fetcher/grpc/client"
+	"ChipiAiChat/pkg/database"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
@@ -21,6 +22,8 @@ var upgrader = websocket.Upgrader{
 }
 
 func (ch Chat) ChatInAi(c echo.Context) error {
+	roomId := c.QueryParam("roomId")
+
 	token, err := cookie.CheckJWT(c)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, "missing token")
@@ -52,7 +55,8 @@ func (ch Chat) ChatInAi(c echo.Context) error {
 
 		fmt.Println("User message:", string(message))
 
-		go client.SendContent(username, string(message))
+		go database.SaveMessage(roomId, username, string(message))
+		go client.SendContent(username, string(message), roomId)
 	}
 
 	return nil

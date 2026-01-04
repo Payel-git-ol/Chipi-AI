@@ -26,6 +26,7 @@ type AiMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Content       string                 `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	RoomId        string                 `protobuf:"bytes,3,opt,name=roomId,proto3" json:"roomId,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,14 +75,22 @@ func (x *AiMessage) GetContent() string {
 	return ""
 }
 
+func (x *AiMessage) GetRoomId() string {
+	if x != nil {
+		return x.RoomId
+	}
+	return ""
+}
+
 var File_proto_ai_callback_proto protoreflect.FileDescriptor
 
 const file_proto_ai_callback_proto_rawDesc = "" +
 	"\n" +
-	"\x17proto/ai-callback.proto\x1a\x1bgoogle/protobuf/empty.proto\"A\n" +
+	"\x17proto/ai-callback.proto\x1a\x1bgoogle/protobuf/empty.proto\"Y\n" +
 	"\tAiMessage\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x18\n" +
-	"\acontent\x18\x02 \x01(\tR\acontent2A\n" +
+	"\acontent\x18\x02 \x01(\tR\acontent\x12\x16\n" +
+	"\x06roomId\x18\x03 \x01(\tR\x06roomId2A\n" +
 	"\n" +
 	"AiCallback\x123\n" +
 	"\rSendAiMessage\x12\n" +

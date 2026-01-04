@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-func SendContentInGemini(username string, content string) {
+func SendContentInGemini(username string, content string, roomId string) {
 	godotenv.Load()
 
 	ctx := context.Background()
@@ -29,7 +29,7 @@ func SendContentInGemini(username string, content string) {
 		genai.Text(
 			"Rewrite the user’s question into a clearer, more grammatically correct, and well‑formulated question. "+
 				"Do not answer the question. Do not expand it. Do not add emotional or artistic interpretation. "+
-				"Do not make it longer than necessary. Just rewrite it in a clean, neutral, professional form. "+
+				"Do not make it longer than necessary. Just rewrite it in a clean, neutral, professional form. An important answer to a user's question"+
 				"User "+username+" asks: \""+content+"\"",
 		),
 		nil,
@@ -41,7 +41,7 @@ func SendContentInGemini(username string, content string) {
 
 	fmt.Println(result.Text())
 
-	grpclient.SendNewMessage(username, result.Text())
+	grpclient.SendNewMessage(username, result.Text(), roomId)
 
 	log.Printf("Message from %s success send in ResponseService", username)
 }

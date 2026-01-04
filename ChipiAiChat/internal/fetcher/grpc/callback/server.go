@@ -3,6 +3,7 @@ package callback
 import (
 	"ChipiAiChat/internal/core/service/chat"
 	"ChipiAiChat/internal/fetcher/grpc/callbackpb"
+	"ChipiAiChat/pkg/database"
 	"context"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
@@ -15,6 +16,10 @@ func (s *CallbackServer) SendAiMessage(ctx context.Context, req *callbackpb.AiMe
 	ws := chat.Connections[req.Username]
 	if ws != nil {
 		ws.WriteMessage(1, []byte(req.Content))
+		err := database.UpdateMessageContent(req.RoomId, req.Username, req.Content)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &emptypb.Empty{}, nil
 }

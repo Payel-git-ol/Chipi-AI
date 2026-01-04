@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func SendNewMessageInChat(username string, content string) {
+func SendNewMessageInChat(username string, content string, roomId string) {
 	ctx := context.Background()
 	conn, err := grpc.Dial("localhost:50053", grpc.WithInsecure())
 
@@ -22,6 +22,7 @@ func SendNewMessageInChat(username string, content string) {
 	_, err = callbackClient.SendAiMessage(ctx, &call.AiMessage{
 		Username: username,
 		Content:  content,
+		RoomId:   roomId,
 	})
 
 	if err != nil {

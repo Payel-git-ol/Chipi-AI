@@ -7,6 +7,7 @@ option go_package = "github.com/pasaz/ChipiAi/proto;callbackpb";
 message AiMessage {
   string username = 1;
   string content = 2;
+  string roomId = 3;
 }
 
 service AiCallback {

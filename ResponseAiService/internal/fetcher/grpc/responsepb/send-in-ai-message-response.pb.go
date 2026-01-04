@@ -26,6 +26,7 @@ type NewMessageContentResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Content       string                 `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	RoomId        string                 `protobuf:"bytes,3,opt,name=roomId,proto3" json:"roomId,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,14 +75,22 @@ func (x *NewMessageContentResponse) GetContent() string {
 	return ""
 }
 
+func (x *NewMessageContentResponse) GetRoomId() string {
+	if x != nil {
+		return x.RoomId
+	}
+	return ""
+}
+
 var File_proto_send_in_ai_message_response_proto protoreflect.FileDescriptor
 
 const file_proto_send_in_ai_message_response_proto_rawDesc = "" +
 	"\n" +
-	"'proto/send-in-ai-message-response.proto\x1a\x1bgoogle/protobuf/empty.proto\"Q\n" +
+	"'proto/send-in-ai-message-response.proto\x1a\x1bgoogle/protobuf/empty.proto\"i\n" +
 	"\x19NewMessageContentResponse\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x18\n" +
-	"\acontent\x18\x02 \x01(\tR\acontent2W\n" +
+	"\acontent\x18\x02 \x01(\tR\acontent\x12\x16\n" +
+	"\x06roomId\x18\x03 \x01(\tR\x06roomId2W\n" +
 	"\x16MessageServiceResponse\x12=\n" +
 	"\aMessage\x12\x1a.NewMessageContentResponse\x1a\x16.google.protobuf.EmptyB+Z)github.com/pasaz/ChipiAi/proto;responsepbb\x06proto3"
 

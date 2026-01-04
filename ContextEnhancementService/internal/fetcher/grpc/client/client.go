@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func SendNewMessage(username string, content string) {
+func SendNewMessage(username string, content string, roomId string) {
 	ctx := context.Background()
 	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
 
@@ -22,6 +22,7 @@ func SendNewMessage(username string, content string) {
 	_, err = client.Message(ctx, &pb.NewMessageContentResponse{
 		Username: username,
 		Content:  content,
+		RoomId:   roomId,
 	})
 
 	if err != nil {
