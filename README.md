@@ -10,6 +10,7 @@ WebSocket → gRPC → AI Service → Callback → MongoDB → WebSocket.
 
 ## 🚀 Features
 
+- **Go/Echo**
 - **Realtime WebSocket chat**
 - **AI message processing** via gRPC (ContextEnhancementService)
 - **Callback server** for AI responses
